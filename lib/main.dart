@@ -31,6 +31,34 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
 
+  List<String> questions = [
+    "You are a Human",
+    "You are an alien",
+    "Earth is gonna be destroyed",
+    "Most of the Human are morons",
+    "Somebody likes bombeli karawala",
+    "There are so many brainy people out there",
+    "It's raining cats and dogs"
+  ];
+
+  List<bool> answers = [true, false, true, true, false, true, false];
+
+  int quizNumber = 0;
+
+  void checkAnswer(userInput) {
+    if (answers[quizNumber] == userInput) {
+      print('User is fucking right');
+      scoreKeeper.add(
+        const Icon(Icons.check, color: Colors.green),
+      );
+    } else {
+      print('User is fucking wrong');
+      scoreKeeper.add(
+        const Icon(Icons.close, color: Colors.red),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,7 +71,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10),
             child: Center(
               child: Text(
-                'This is where the question text will go',
+                questions[quizNumber],
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 25, color: Colors.white),
               ),
@@ -57,13 +85,13 @@ class _QuizPageState extends State<QuizPage> {
             style: TextButton.styleFrom(
                 primary: Colors.white, backgroundColor: Colors.green),
             onPressed: () {
+              bool correctAnswer = answers[quizNumber];
               setState(() {
-                scoreKeeper.add(
-                  Icon(Icons.check, color: Colors.green),
-                );
+                checkAnswer(true);
+                quizNumber += 1;
               });
             },
-            child: Text(
+            child: const Text(
               'True',
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
@@ -71,12 +99,18 @@ class _QuizPageState extends State<QuizPage> {
         )),
         Expanded(
             child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: TextButton(
             style: TextButton.styleFrom(
                 primary: Colors.white, backgroundColor: Colors.red),
-            onPressed: () {},
-            child: Text(
+            onPressed: () {
+
+              setState(() {
+                checkAnswer(false);
+                quizNumber += 1;
+              });
+            },
+            child: const Text(
               'False',
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
